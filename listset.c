@@ -85,12 +85,25 @@ void listset_union(struct listset * dest, struct listset * src1, struct listset 
 
 // place the intersection of src1 and src2 into dest
 void listset_intersect(struct listset * dest, struct listset * src1, struct listset * src2) {
+    // Loop through src1
+    struct listnode * curr;
+    for ( curr = src1->head; curr != NULL; curr = curr->next ) {
+        // If it's in src2, add it to dest
+        if (listset_lookup(src2, curr->str) == 1) {
+            listset_add(dest, curr->str);
+        }
+    }
 }
 
 // return the number of items in the listset
-int listset_cardinality(struct listset * this) {
-    int dummy_var = 2;
-    return dummy_var;
+int listset_cardinality(struct listset * src) {
+    // Loop through src and increment count each time
+    int count = 0;
+    struct listnode * p;
+    for ( p = src->head; p != NULL; p = p->next) {
+        count++;
+    }
+    return count;
 }
 
 // print the elements of the list set
