@@ -70,13 +70,21 @@ void listset_remove(struct listset * this, char * item) {
 }
   
 // place the union of src1 and src2 into dest
-void listset_union(struct listset * dest, struct listset * src1,
-		   struct listset * src2) {
+void listset_union(struct listset * dest, struct listset * src1, struct listset * src2) {
+    // Loop through src1 and add everything
+    struct listnode * curr;
+    for ( curr = src1->head; curr != NULL; curr = curr->next ) {
+        listset_add(dest, curr->str);
+    }
+
+    // Loop through src2 and add everything 
+    for ( curr = src2->head; curr != NULL; curr = curr->next ) {
+        listset_add(dest, curr->str);
+    }
 }
 
 // place the intersection of src1 and src2 into dest
-void listset_intersect(struct listset * dest, struct listset * src1,
-		       struct listset * src2) {
+void listset_intersect(struct listset * dest, struct listset * src1, struct listset * src2) {
 }
 
 // return the number of items in the listset
@@ -90,7 +98,7 @@ void listset_print(struct listset * this) {
   struct listnode * p;
 
   for ( p = this->head; p != NULL; p = p->next ) {
-    printf("%s ", p->str);
+    printf("%s, ", p->str);
   }
   printf("\n");
 }
