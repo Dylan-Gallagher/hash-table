@@ -34,26 +34,35 @@ int hash_string(char * string, int range)
 // create a new empty hashtable
 struct hashtable * hashtable_new(int size)
 {
-
+  struct hashtable * result = malloc(sizeof(struct hashtable));
+  result->size = size;
+  result->table = malloc(sizeof(struct listset *) * size);
+  for (int i = 0; i < size; i++) {
+    result->table[i] = listset_new();
+  }
+  return result;
 }
 
 // add an item to the hashtable
 void hashtable_add(struct hashtable * this, char * item)
 {
-
+  int hash = hash_string(item, this->size);
+  listset_add(this->table[hash], item);
 }
 
 // return 1 if item is in hashtable, 0 otherwise
 int hashtable_lookup(struct hashtable * this, char * item)
 {
-
+  int hash = hash_string(item, this->size);
+  return listset_lookup(this->table[hash], item);
 }
 
 // remove an item from the hash table; if the item is in the table
 // multiple times, just remove the first one that we encounter
 void hashtable_remove(struct hashtable * this, char * item)
 {
-
+  int hash = hash_string(item, this->size);
+  listset_remove(this->table[hash], item);
 }
 
 // print the elements of the hashtable set
@@ -61,5 +70,15 @@ void hashtable_print(struct hashtable * this) {
   for (int i = 0; i < this->size; i++ ) {
     listset_print(this->table[i]);
   }
+}
+
+// return the number of items in the hashtable
+int hashtable_cardinality(struct hashtable * this)
+{
+  int count = 0;
+  for (int i = 0; i < this->size; i++ ) {
+    count += listset_cardinality(this->table[i]);
+  }
+  return count;
 }
 

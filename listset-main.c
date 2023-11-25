@@ -2,42 +2,42 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "listset.h"
+#include "hashtable.h"
 
-// main function to test the listset ADT
+// main function to test the hashtable ADT
 int main(int argc, char ** argv) {
-  struct listset * myset;
+  struct hashtable * myset;
 
   if ( argc < 2 ) {
-    fprintf(stderr, "Usage: ./listset <command> <string> <command> <string> ... \n");
+    fprintf(stderr, "Usage: ./hashtable <command> <string> <command> <string> ... \n");
     fprintf(stderr, "       where <command> is + (add following string)\n");
     fprintf(stderr, "                          - (remove following string)\n");
     fprintf(stderr, "                          = (print set)\n");
     fprintf(stderr, "                          # (print cardinality)\n");
-    fprintf(stderr, "       Example: ./listset + Cat + Dog + Elephant - Dog =\n");
+    fprintf(stderr, "       Example: ./hashtable + Cat + Dog + Elephant - Dog =\n");
     exit(1);
   }
 
   // create a set and follow the commands
-  myset = listset_new();
+  myset = hashtable_new(100);
   int i = 1;
   while ( i < argc ) {
     if ( argv[i][0] == '+' ) {
       assert( i+1 < argc );
-      listset_add(myset, argv[i+1]);
+      hashtable_add(myset, argv[i+1]);
       i = i + 2;
     }
     else if (argv[i][0] == '-' ) {
       assert( i+1 < argc );
-      listset_remove(myset, argv[i+1]);
+      hashtable_remove(myset, argv[i+1]);
       i = i + 2;
     }
     else if (argv[i][0] == '=' ) {
-      listset_print(myset);
+      hashtable_print(myset);
       i++;
     }
     else if (argv[i][0] == '#' ) {
-      printf("cardinality: %d\n", listset_cardinality(myset));
+      printf("cardinality: %d\n", hashtable_cardinality(myset));
       i++;
     }
     else {
