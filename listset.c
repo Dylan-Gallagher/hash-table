@@ -56,13 +56,13 @@ void listset_remove(struct listset * this, char * item) {
 
             // if it's the head node
             if (this->head == p) {
-                this->head == p->next;
+                this->head = p->next;
             }
             else {
                 p_prev->next = p->next;
             }
 
-//            free(p);
+            break;
 
         }
         p_prev = p;
